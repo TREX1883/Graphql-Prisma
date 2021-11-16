@@ -9,6 +9,7 @@ const {
   asNexusMethod,
   enumType,
 } = require('nexus')
+//check with 'graphql-scalars' or 'graphql-iso-date'
 const { DateTimeResolver } = require('graphql-scalars')
 
 const DateTime = asNexusMethod(DateTimeResolver, 'date')
