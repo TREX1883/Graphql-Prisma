@@ -102,115 +102,115 @@ const Query = objectType({
   },
 })
 
-// const Mutation = objectType({
-//   name: 'Mutation',
-//   definition(t) {
-//     t.nonNull.field('signupUser', {
-//       type: 'User',
-//       args: {
-//         data: nonNull(
-//           arg({
-//             type: 'UserCreateInput',
-//           }),
-//         ),
-//       },
-//       resolve: (_, args, context) => {
-//         const postData = args.data.posts
-//           ? args.data.posts.map((post) => {
-//               return { title: post.title, content: post.content || undefined }
-//             })
-//           : []
-//         return context.prisma.user.create({
-//           data: {
-//             name: args.data.name,
-//             email: args.data.email,
-//             posts: {
-//               create: postData,
-//             },
-//           },
-//         })
-//       },
-//     })
+const Mutation = objectType({
+  name: 'Mutation',
+  definition(t) {
+    // t.nonNull.field('signupUser', {
+    //   type: 'User',
+    //   args: {
+    //     data: nonNull(
+    //       arg({
+    //         type: 'UserCreateInput',
+    //       }),
+    //     ),
+    //   },
+    //   resolve: (_, args, context) => {
+    //     const postData = args.data.posts
+    //       ? args.data.posts.map((post) => {
+    //           return { title: post.title, content: post.content || undefined }
+    //         })
+    //       : []
+    //     return context.prisma.user.create({
+    //       data: {
+    //         name: args.data.name,
+    //         email: args.data.email,
+    //         posts: {
+    //           create: postData,
+    //         },
+    //       },
+    //     })
+    //   },
+    // })
 
-//     t.field('createDraft', {
-//       type: 'Post',
-//       args: {
-//         data: nonNull(
-//           arg({
-//             type: 'PostCreateInput',
-//           }),
-//         ),
-//         authorEmail: nonNull(stringArg()),
-//       },
-//       resolve: (_, args, context) => {
-//         return context.prisma.post.create({
-//           data: {
-//             title: args.data.title,
-//             content: args.data.content,
-//             author: {
-//               connect: { email: args.authorEmail },
-//             },
-//           },
-//         })
-//       },
-//     })
+    t.field('createCourse', {
+      type: 'Course',
+      args: {
+        data: nonNull(
+          arg({
+            type: 'CourseCreateInput',
+          }),
+        ),
+        instructorEmail: nonNull(stringArg()),
+      },
+      resolve: (_, args, context) => {
+        return context.prisma.course.create({
+          data: {
+            title: args.data.title,
+            description: args.data.description,
+            instructor: {
+              connect: { email: args.instructorEmail },
+            },
+          },
+        })
+      },
+    })
 
-//     t.field('togglePublishPost', {
-//       type: 'Post',
-//       args: {
-//         id: nonNull(intArg()),
-//       },
-//       resolve: async (_, args, context) => {
-//         const post = await context.prisma.post.findUnique({
-//           where: { id: args.id || undefined },
-//           select: {
-//             published: true,
-//           },
-//         })
+    // t.field('togglePublishPost', {
+    //   type: 'Post',
+    //   args: {
+    //     id: nonNull(intArg()),
+    //   },
+    //   resolve: async (_, args, context) => {
+    //     const post = await context.prisma.post.findUnique({
+    //       where: { id: args.id || undefined },
+    //       select: {
+    //         published: true,
+    //       },
+    //     })
 
-//         if (!post) {
-//           throw new Error(
-//             `Post with ID ${args.id} does not exist in the database.`,
-//           )
-//         }
+    //     if (!post) {
+    //       throw new Error(
+    //         `Post with ID ${args.id} does not exist in the database.`,
+    //       )
+    //     }
 
-//         return context.prisma.post.update({
-//           where: { id: args.id || undefined },
-//           data: { published: !post.published },
-//         })
-//       },
-//     })
+    //     return context.prisma.post.update({
+    //       where: { id: args.id || undefined },
+    //       data: { published: !post.published },
+    //     })
+    //   },
+    // })
 
-//     t.field('incrementPostViewCount', {
-//       type: 'Post',
-//       args: {
-//         id: nonNull(intArg()),
-//       },
-//       resolve: (_, args, context) => {
-//         return context.prisma.post.update({
-//           where: { id: args.id || undefined },
-//           data: {
-//             viewCount: {
-//               increment: 1,
-//             },
-//           },
-//         })
-//       },
-//     })
+    // t.field('incrementPostViewCount', {
+    //   type: 'Post',
+    //   args: {
+    //     id: nonNull(intArg()),
+    //   },
+    //   resolve: (_, args, context) => {
+    //     return context.prisma.post.update({
+    //       where: { id: args.id || undefined },
+    //       data: {
+    //         viewCount: {
+    //           increment: 1,
+    //         },
+    //       },
+    //     })
+    //   },
+    // })
 
-//     t.field('deletePost', {
-//       type: 'Post',
-//       args: {
-//         id: nonNull(intArg()),
-//       },
-//       resolve: (_, args, context) => {
-//         return context.prisma.post.delete({
-//           where: { id: args.id },
-//         })
-//       },
-//     })
-//   },
-// })
+    // t.field('deletePost', {
+    //   type: 'Post',
+    //   args: {
+    //     id: nonNull(intArg()),
+    //   },
+    //   resolve: (_, args, context) => {
+    //     return context.prisma.post.delete({
+    //       where: { id: args.id },
+    //     })
+    //   },
+    // })
+  },
+})
 
 const Instructor = objectType({
   name: 'Instructor',
@@ -255,51 +255,53 @@ const Course = objectType({
   },
 })
 
-const SortOrder = enumType({
-  name: 'SortOrder',
-  members: ['asc', 'desc'],
-})
+// const SortOrder = enumType({
+//   name: 'SortOrder',
+//   members: ['asc', 'desc'],
+// })
 
-const PostOrderByUpdatedAtInput = inputObjectType({
-  name: 'PostOrderByUpdatedAtInput',
-  definition(t) {
-    t.nonNull.field('updatedAt', { type: 'SortOrder' })
-  },
-})
+// const PostOrderByUpdatedAtInput = inputObjectType({
+//   name: 'PostOrderByUpdatedAtInput',
+//   definition(t) {
+//     t.nonNull.field('updatedAt', { type: 'SortOrder' })
+//   },
+// })
 
-const UserUniqueInput = inputObjectType({
-  name: 'UserUniqueInput',
-  definition(t) {
-    t.int('id')
-    t.string('email')
-  },
-})
+// const UserUniqueInput = inputObjectType({
+//   name: 'UserUniqueInput',
+//   definition(t) {
+//     t.int('id')
+//     t.string('email')
+//   },
+// })
 
-const PostCreateInput = inputObjectType({
-  name: 'PostCreateInput',
+//check video at 1:12 3/29 problem with how I could missed this part with Course replacement.
+
+const CourseCreateInput = inputObjectType({
+  name: 'CourseCreateInput',
   definition(t) {
     t.nonNull.string('title')
-    t.string('content')
+    t.string('description')
   },
 })
 
-const UserCreateInput = inputObjectType({
-  name: 'UserCreateInput',
-  definition(t) {
-    t.nonNull.string('email')
-    t.string('name')
-    t.list.nonNull.field('posts', { type: 'PostCreateInput' })
-  },
-})
+// const UserCreateInput = inputObjectType({
+//   name: 'UserCreateInput',
+//   definition(t) {
+//     t.nonNull.string('email')
+//     t.string('name')
+//     t.list.nonNull.field('posts', { type: 'PostCreateInput' })
+//   },
+// })
 
 const schema = makeSchema({
   types: [
     Query,
-    //Mutation,
+    Mutation,
     Course,
     Instructor,
     // UserUniqueInput,
-    // UserCreateInput,
+    CourseCreateInput,
     // PostCreateInput,
     // SortOrder,
     // PostOrderByUpdatedAtInput,
