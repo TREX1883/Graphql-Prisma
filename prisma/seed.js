@@ -2,16 +2,17 @@ const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
-const userData = [
+const instructorData = [
   {
     name: 'Alice',
     email: 'alice@prisma.io',
-    posts: {
+    courses: {
       create: [
         {
-          title: 'Join the Prisma Slack',
-          content: 'https://slack.prisma.io',
-          published: true,
+          title: 'DGM 1600 Intro',
+          description: 'Course description goes here',
+          defaultCredits: '3',
+          courseCode: 'DGM1600',
         },
       ],
     },
@@ -19,31 +20,33 @@ const userData = [
   {
     name: 'Nilu',
     email: 'nilu@prisma.io',
-    posts: {
+    courses: {
       create: [
         {
-          title: 'Follow Prisma on Twitter',
-          content: 'https://www.twitter.com/prisma',
-          published: true,
-          viewCount: 42,
+          title: 'DGM2760 Web Languages I',
+          description: 'Course description goes here',
+          defaultCredits: '3',
+          courseCode: 'DGM2760'
         },
       ],
     },
   },
   {
-    name: 'Mahmoud',
-    email: 'mahmoud@prisma.io',
-    posts: {
+    name: 'Daniel',
+    email: 'daniel@prisma.io',
+    courses: {
       create: [
         {
-          title: 'Ask a question about Prisma on GitHub',
-          content: 'https://www.github.com/prisma/prisma/discussions',
-          published: true,
-          viewCount: 128,
+          title: 'DGM 3790 Rich Internet Application Development I',
+          description: 'Build a VUE front-end in this course.',
+          defaultCredits: '3',
+          courseCode: 'DGM3790',
         },
         {
-          title: 'Prisma on YouTube',
-          content: 'https://pris.ly/youtube',
+          title: 'DGM 4790 Rich Internet Application Development II',
+          description: 'Build a Node/Mongodb/Postgres/GraphQL back-end in this course.',
+          defaultCredits: '3',
+          courseCode: 'DGM4790',
         },
       ],
     },
@@ -52,11 +55,11 @@ const userData = [
 
 async function main() {
   console.log(`Start seeding ...`)
-  for (const u of userData) {
-    const user = await prisma.user.create({
-      data: u,
+  for (const i of instructorData) {
+    const instructor = await prisma.instructor.create({
+      data: i,
     })
-    console.log(`Created user with id: ${user.id}`)
+    console.log(`Created instructor with id: ${instructor.id}`)
   }
   console.log(`Seeding finished.`)
 }

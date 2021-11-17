@@ -1,5 +1,5 @@
-// npx prisma studio
-// npm run dev
+// npx prisma studio  on localhost:5555
+// npm run dev on localhost:4000  check time 1:04 3/29
 generator client {
   provider = "prisma-client-js"
 }
