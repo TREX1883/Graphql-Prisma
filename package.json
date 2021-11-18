@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "seed": "npx prisma db seed --preview-feature"
+    "migrate": "npx prisma migrate dev --name init",
+    "seed": "npx prisma db seed",
+    "dev": "nodemon src/server.js"
   },
   "prettier": {
     "semi": false,
