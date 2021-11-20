@@ -1,5 +1,6 @@
-export const mtgs = [
-    {
+// not sure how to make this possible in json 
+
+"mtgs":{
       name: "Abundance",
       manaCost: "{2}{G}{G}",
       cmc: 4.0,
@@ -10161,4 +10162,3 @@ export const mtgs = [
       ],
       id: "5e472972-de49-5bf8-b39c-edfdf7851976"
     }
-  ]

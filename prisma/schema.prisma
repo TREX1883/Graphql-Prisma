@@ -16,6 +16,13 @@ model Instructor {
   courses Course[]
 }
 
+// model Instructor {
+//   id    Int     @id @default(autoincrement())
+//   email String  @unique
+//   name  String?
+//   courses Mtgs[]
+// }
+
 model Course {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -28,3 +35,16 @@ model Course {
   instructor    Instructor?    @relation(fields: [instructorId], references: [id])
   instructorId  Int?
 }
+
+// model MTGS {
+//   id        Int      @id @default(autoincrement())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   name     String
+//   color  String?
+//   rarity String?
+//   imageUrl String?
+//   //termsOffered String[]
+//   instructor    Instructor?    @relation(fields: [instructorId], references: [id])
+//   instructorId  Int?
+// }
