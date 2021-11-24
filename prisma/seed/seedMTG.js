@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 
 async function loadUVUCourses() {
     //removed .course after ('mtgs').course because it doesn't work on MTG's api
+    // 107:30 3/31 video preview original
 const allCourses = uvu_courses('mtgs')
 return allCourses.map((crs) => {
     return {

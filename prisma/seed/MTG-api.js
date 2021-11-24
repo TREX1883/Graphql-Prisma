@@ -1,4 +1,8 @@
-export const mtgs = [
+const { PrismaClient } = require('@prisma/client')
+
+const prisma = new PrismaClient()
+
+const mtgs = [
     {
       name: "Abundance",
       manaCost: "{2}{G}{G}",
