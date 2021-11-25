@@ -14,42 +14,37 @@ datasource db {
 //   url      = "file:./dev.db"
 // }
 
-model Instructor {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  courses Course[]
-}
-
 // model Instructor {
 //   id    Int     @id @default(autoincrement())
 //   email String  @unique
 //   name  String?
-//   courses Mtgs[]
+//   courses Course[]
 // }
 
-model Course {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  description  String?
-  defaultCredits String?
-  courseCode String?
-  //termsOffered String[]
-  instructor    Instructor?    @relation(fields: [instructorId], references: [id])
-  instructorId  Int?
+model Instructor {
+  id    Int     @id @default(autoincrement())
+  name  String?
+  color String?
+  text String?
+  imageUrl String?
+  rulings Ruling[]
 }
 
-// model MTGS {
+// model Course {
 //   id        Int      @id @default(autoincrement())
 //   createdAt DateTime @default(now())
 //   updatedAt DateTime @updatedAt
-//   name     String
-//   color  String?
-//   rarity String?
-//   imageUrl String?
+//   title     String
+//   description  String?
+//   defaultCredits String?
+//   courseCode String?
 //   //termsOffered String[]
 //   instructor    Instructor?    @relation(fields: [instructorId], references: [id])
 //   instructorId  Int?
 // }
+
+model Ruling {
+  id        Int      @id @default(autoincrement())
+  date String?
+  text    String?
+}
