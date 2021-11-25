@@ -21,7 +21,7 @@ datasource db {
 //   courses Course[]
 // }
 
-model Instructor {
+model Mtgs {
   id    Int     @id @default(autoincrement())
   name  String?
   color String?
