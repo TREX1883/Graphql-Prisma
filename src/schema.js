@@ -13,6 +13,13 @@ const {
 const { DateTimeResolver } = require('graphql-scalars')
 
 const DateTime = asNexusMethod(DateTimeResolver, 'date')
+// allInstructors to ???
+// Instructor to ???
+// .instructor to ???
+// allCourses to ???
+// Course to ???
+// .course to ???
+// courseById to ???
 
 const Query = objectType({
   name: 'Query',
