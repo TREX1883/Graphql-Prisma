@@ -21,13 +21,12 @@ datasource db {
 //   courses Course[]
 // }
 
-model Mtgs {
+model Ruling {
   id    Int     @id @default(autoincrement())
-  name  String?
-  color String?
-  text String?
-  imageUrl String?
-  rulings Ruling[]
+  date  String
+  text String
+  mtg   Mtg @relation(fields: [mtgId], references: [id])
+  mtgId  Int
 }
 
 // model Course {
@@ -43,8 +42,13 @@ model Mtgs {
 //   instructorId  Int?
 // }
 
-model Ruling {
+model Mtg {
+  name String @unique
   id        Int      @id @default(autoincrement())
-  date String?
-  text    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  color String?
+  text String?
+  iamgeUrl String?
+  rulings Ruling[]
 }

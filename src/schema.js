@@ -9,42 +9,34 @@ const {
   asNexusMethod,
   enumType,
 } = require('nexus')
-//check with 'graphql-scalars' or 'graphql-iso-date'
 const { DateTimeResolver } = require('graphql-scalars')
 
 const DateTime = asNexusMethod(DateTimeResolver, 'date')
-// allInstructors to ???
-// Instructor to ???
-// .instructor to ???
-// allCourses to ???
-// Course to ???
-// .course to ???
-// courseById to ???
 
 const Query = objectType({
   name: 'Query',
   definition(t) {
-    t.nonNull.list.nonNull.field('allInstructors', {
-      type: 'Instructor',
+    t.nonNull.list.nonNull.field('allMtgs', {
+      type: 'Mtg',
       resolve: (_parent, _args, context) => {
-        return context.prisma.instructor.findMany()
+        return context.prisma.mtg.findMany()
       },
     })
 
-    t.nonNull.list.nonNull.field('allCourses', {
-      type: 'Course',
+    t.nonNull.list.nonNull.field('allRulings', {
+      type: 'Ruling',
       resolve: (_parent, _args, context) => {
-        return context.prisma.course.findMany()
+        return context.prisma.ruling.findMany()
       },
     })
 
-    t.nullable.field('courseById', {
-      type: 'Course',
+    t.nullable.field('rulingById', {
+      type: 'Ruling',
       args: {
         id: intArg(),
       },
       resolve: (_parent, args, context) => {
-        return context.prisma.course.findUnique({
+        return context.prisma.ruling.findUnique({
           where: { id: args.id || undefined },
         })
       },
