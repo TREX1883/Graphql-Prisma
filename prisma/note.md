@@ -5,6 +5,7 @@ allCourses to allRulings
 Course to Ruling
 .course to ruling
 courseById to rulingById
+courses to mtgs
 
 
 
@@ -12,7 +13,7 @@ mtgs [
     name:
     colors:
     text:
-    imageURL:
+    imageUrl:
     rulings: [
         date:
         text:

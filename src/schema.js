@@ -42,268 +42,161 @@ const Query = objectType({
       },
     })
 
-    // t.nonNull.list.nonNull.field('feed', {
-    //   type: 'Post',
-    //   args: {
-    //     searchString: stringArg(),
-    //     skip: intArg(),
-    //     take: intArg(),
-    //     orderBy: arg({
-    //       type: 'PostOrderByUpdatedAtInput',
-    //     }),
-    //   },
-    //   resolve: (_parent, args, context) => {
-    //     const or = args.searchString
-    //       ? {
-    //           OR: [
-    //             { title: { contains: args.searchString } },
-    //             { content: { contains: args.searchString } },
-    //           ],
-    //         }
-    //       : {}
-
-    //     return context.prisma.post.findMany({
-    //       where: {
-    //         published: true,
-    //         ...or,
-    //       },
-    //       take: args.take || undefined,
-    //       skip: args.skip || undefined,
-    //       orderBy: args.orderBy || undefined,
-    //     })
-    //   },
-    // })
-
-    // t.list.field('draftsByUser', {
-    //   type: 'Post',
-    //   args: {
-    //     userUniqueInput: nonNull(
-    //       arg({
-    //         type: 'UserUniqueInput',
-    //       }),
-    //     ),
-    //   },
-    //   resolve: (_parent, args, context) => {
-    //     return context.prisma.user
-    //       .findUnique({
-    //         where: {
-    //           id: args.userUniqueInput.id || undefined,
-    //           email: args.userUniqueInput.email || undefined,
-    //         },
-    //       })
-    //       .posts({
-    //         where: {
-    //           published: false,
-    //         },
-    //       })
-    //   },
-    // })
+    t.nullable.field('mtgById', {
+      type: 'Mtg',
+      args: {
+        id: intArg(),
+      },
+      resolve: (_parent, args, context) => {
+        return context.prisma.mtg.findUnique({
+          where: { id: args.id || undefined },
+        })
+      },
+    })
   },
 })
 
 const Mutation = objectType({
   name: 'Mutation',
   definition(t) {
-    // t.nonNull.field('signupUser', {
-    //   type: 'User',
-    //   args: {
-    //     data: nonNull(
-    //       arg({
-    //         type: 'UserCreateInput',
-    //       }),
-    //     ),
-    //   },
-    //   resolve: (_, args, context) => {
-    //     const postData = args.data.posts
-    //       ? args.data.posts.map((post) => {
-    //           return { title: post.title, content: post.content || undefined }
-    //         })
-    //       : []
-    //     return context.prisma.user.create({
-    //       data: {
-    //         name: args.data.name,
-    //         email: args.data.email,
-    //         posts: {
-    //           create: postData,
-    //         },
-    //       },
-    //     })
-    //   },
-    // })
-
-    t.field('createCourse', {
-      type: 'Course',
+    t.nonNull.field('createMtg', {
+      type: 'Mtg',
       args: {
         data: nonNull(
           arg({
-            type: 'CourseCreateInput',
+            type: 'MtgCreateInput',
           }),
         ),
-        instructorEmail: nonNull(stringArg()),
       },
       resolve: (_, args, context) => {
-        return context.prisma.course.create({
+        return context.prisma.mtg.create({
           data: {
-            title: args.data.title,
-            description: args.data.description,
-            instructor: {
-              connect: { email: args.instructorEmail },
+            name: args.data.name,
+            colors: args.data.colors,
+            text: args.data.text,
+            imageUrl: args.data.imageUrl,
+          },
+        })
+      },
+    })
+
+    t.field('createRuling', {
+      type: 'Ruling',
+      args: {
+        data: nonNull(
+          arg({
+            type: 'RulingCreateInput',
+          }),
+        ),
+        mtgName: nonNull(stringArg()),
+      },
+      resolve: (_, args, context) => {
+        return context.prisma.ruling.create({
+          data: {
+            date: args.data.date,
+            text: args.data.text,
+            mtg: {
+              connect: { name: args.mtgName },
             },
           },
         })
       },
     })
 
-    // t.field('togglePublishPost', {
-    //   type: 'Post',
-    //   args: {
-    //     id: nonNull(intArg()),
-    //   },
-    //   resolve: async (_, args, context) => {
-    //     const post = await context.prisma.post.findUnique({
-    //       where: { id: args.id || undefined },
-    //       select: {
-    //         published: true,
-    //       },
-    //     })
+    t.field('deleteRuling', {
+      type: 'Ruling',
+      args: {
+        id: nonNull(intArg()),
+      },
+      resolve: (_, args, context) => {
+        return context.prisma.ruling.delete({
+          where: { id: args.id},
+        })
+      },
+    })
 
-    //     if (!post) {
-    //       throw new Error(
-    //         `Post with ID ${args.id} does not exist in the database.`,
-    //       )
-    //     }
-
-    //     return context.prisma.post.update({
-    //       where: { id: args.id || undefined },
-    //       data: { published: !post.published },
-    //     })
-    //   },
-    // })
-
-    // t.field('incrementPostViewCount', {
-    //   type: 'Post',
-    //   args: {
-    //     id: nonNull(intArg()),
-    //   },
-    //   resolve: (_, args, context) => {
-    //     return context.prisma.post.update({
-    //       where: { id: args.id || undefined },
-    //       data: {
-    //         viewCount: {
-    //           increment: 1,
-    //         },
-    //       },
-    //     })
-    //   },
-    // })
-
-    // t.field('deletePost', {
-    //   type: 'Post',
-    //   args: {
-    //     id: nonNull(intArg()),
-    //   },
-    //   resolve: (_, args, context) => {
-    //     return context.prisma.post.delete({
-    //       where: { id: args.id },
-    //     })
-    //   },
-    // })
-  },
-})
-
-const Instructor = objectType({
-  name: 'Instructor',
-  definition(t) {
-    t.nonNull.int('id')
-    t.string('name')
-    t.nonNull.string('email')
-    t.nonNull.list.nonNull.field('courses', {
-      type: 'Course',
-      resolve: (parent, _, context) => {
-        return context.prisma.instructor
-          .findUnique({
-            where: { id: parent.id || undefined },
-          })
-          .courses()
+    t.field('deleteMtg', {
+      type: 'Mtg',
+      args: {
+        id: nonNull(intArg()),
+      },
+      resolve: (_, args, context) => {
+        return context.prisma.mtg.delete({
+          where: { id: args.id },
+        })
       },
     })
   },
 })
 
-const Course = objectType({
-  name: 'Course',
+const Mtg = objectType({
+  name: 'Mtg',
   definition(t) {
+    t.string('name')
     t.nonNull.int('id')
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })
-    t.nonNull.string('title')
-    t.string('description')
-    t.string('defaultCredits')
-    t.string('courseCode')
-    t.nonNull.int('viewCount')
-    t.field('instructor', {
-      type: 'Instructor',
+    t.string('colors')
+    t.string('text')
+    t.string('imageUrl')
+    t.nonNull.list.nonNull.field('mtgs', {
+      type: 'Mtg',
       resolve: (parent, _, context) => {
-        return context.prisma.course
+        return context.prisma.mtg
           .findUnique({
             where: { id: parent.id || undefined },
           })
-          .instructor()
+          .mtgs()
       },
     })
   },
 })
 
-// const SortOrder = enumType({
-//   name: 'SortOrder',
-//   members: ['asc', 'desc'],
-// })
-
-// const PostOrderByUpdatedAtInput = inputObjectType({
-//   name: 'PostOrderByUpdatedAtInput',
-//   definition(t) {
-//     t.nonNull.field('updatedAt', { type: 'SortOrder' })
-//   },
-// })
-
-// const UserUniqueInput = inputObjectType({
-//   name: 'UserUniqueInput',
-//   definition(t) {
-//     t.int('id')
-//     t.string('email')
-//   },
-// })
-
-//check video at 1:12 3/29 problem with how I could missed this part with Course replacement.
-
-const CourseCreateInput = inputObjectType({
-  name: 'CourseCreateInput',
+const Ruling = objectType({
+  name: 'Ruling',
   definition(t) {
-    t.nonNull.string('title')
-    t.string('description')
+    t.nonNull.int('id')
+    t.nonNull.string('date')
+    t.nonNull.string('text')
+    t.field('mtg', {
+      type: 'mtg',
+      resolve: (parent, _, context) => {
+        return context.prisma.ruling
+          .findUnique({
+            where: { id: parent.id || undefined },
+          })
+          .mtg()
+      },
+    })
   },
 })
 
-// const UserCreateInput = inputObjectType({
-//   name: 'UserCreateInput',
-//   definition(t) {
-//     t.nonNull.string('email')
-//     t.string('name')
-//     t.list.nonNull.field('posts', { type: 'PostCreateInput' })
-//   },
-// })
+const RulingCreateInput = inputObjectType({
+  name: 'RulingCreateInput',
+  definition(t) {
+    t.string('date')
+    t.string('text')
+  },
+})
+
+const MtgCreateInput = inputObjectType({
+  name: 'MtgCreateInput',
+  definition(t) {
+    t.nonNull.string('name')
+    t.string('colors')
+    t.string('text')
+    t.string('imageUrl')
+  },
+})
 
 const schema = makeSchema({
   types: [
     Query,
     Mutation,
-    Course,
-    Instructor,
-    // UserUniqueInput,
-    CourseCreateInput,
-    // PostCreateInput,
-    // SortOrder,
-    // PostOrderByUpdatedAtInput,
+    Mtg,
+    Ruling,
+    MtgCreateInput,
+    RulingCreateInput,
     DateTime,
   ],
   outputs: {
