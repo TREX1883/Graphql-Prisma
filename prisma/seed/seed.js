@@ -56,6 +56,7 @@ const instructorData = [
 async function main() {
   console.log(`Start seeding ...`)
   for (const i of instructorData) {
+    console.log(i)
     const instructor = await prisma.instructor.create({
       data: i,
     })
