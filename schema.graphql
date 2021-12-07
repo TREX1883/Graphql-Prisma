@@ -2,41 +2,51 @@
 ### Do not make changes to this file directly
 
 
-type Course {
-  courseCode: String
-  createdAt: DateTime!
-  defaultCredits: String
-  description: String
-  id: Int!
-  instructor: Instructor
-  title: String!
-  updatedAt: DateTime!
-  viewCount: Int!
-}
-
-input CourseCreateInput {
-  description: String
-  title: String!
-}
-
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
-type Instructor {
-  courses: [Course!]!
-  email: String!
+type Mtg {
+  colors: String
+  createdAt: DateTime!
   id: Int!
+  imageUrl: String
+  mtgs: [Mtg!]!
   name: String
+  text: String
+  updatedAt: DateTime!
+}
+
+input MtgCreateInput {
+  colors: String
+  imageUrl: String
+  name: String!
+  text: String
 }
 
 type Mutation {
-  createCourse(data: CourseCreateInput!, instructorEmail: String!): Course
+  createMtg(data: MtgCreateInput!): Mtg!
+  createRuling(data: RulingCreateInput!, mtgName: String!): Ruling
+  deleteMtg(id: Int!): Mtg
+  deleteRuling(id: Int!): Ruling
 }
 
 type Query {
-  allCourses: [Course!]!
-  allInstructors: [Instructor!]!
-  courseById(id: Int): Course
+  allMtgs: [Mtg!]!
+  allRulings: [Ruling!]!
+  mtgById(id: Int): Mtg
+  rulingById(id: Int): Ruling
+}
+
+type Ruling {
+  date: String!
+  id: Int!
+  mtg: Mtg
+  text: String!
+}
+
+input RulingCreateInput {
+  date: String
+  text: String
 }

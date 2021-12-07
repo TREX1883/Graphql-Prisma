@@ -1,11 +1,8 @@
-const { PrismaClient } = require('@prisma/client')
+import pkg from '@prisma/client'
+const { PrismaClient } = pkg
 
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
-const context = {
+export const context = {
   prisma: prisma,
-}
-
-module.exports = {
-  context: context,
 }

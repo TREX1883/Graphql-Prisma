@@ -1,4 +1,4 @@
-const {
+import {
   intArg,
   makeSchema,
   nonNull,
@@ -8,8 +8,12 @@ const {
   arg,
   asNexusMethod,
   enumType,
-} = require('nexus')
-const { DateTimeResolver } = require('graphql-scalars')
+} from 'nexus'
+import { DateTimeResolver } from 'graphql-scalars'
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const DateTime = asNexusMethod(DateTimeResolver, 'date')
 
@@ -159,7 +163,7 @@ const Ruling = objectType({
     t.nonNull.string('date')
     t.nonNull.string('text')
     t.field('mtg', {
-      type: 'mtg',
+      type: 'Mtg',
       resolve: (parent, _, context) => {
         return context.prisma.ruling
           .findUnique({
@@ -189,7 +193,7 @@ const MtgCreateInput = inputObjectType({
   },
 })
 
-const schema = makeSchema({
+export const schema = makeSchema({
   types: [
     Query,
     Mutation,
@@ -212,7 +216,3 @@ const schema = makeSchema({
     ],
   },
 })
-
-module.exports = {
-  schema: schema,
-}
