@@ -15,7 +15,8 @@ CREATE TABLE "Mtg" (
     "updatedAt" DATETIME NOT NULL,
     "color" TEXT,
     "text" TEXT,
-    "iamgeUrl" TEXT
+    "iamgeUrl" TEXT,
+    "mtgType" TEXT
 );
 
 -- CreateIndex

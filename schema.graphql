@@ -12,6 +12,7 @@ type Mtg {
   createdAt: DateTime!
   id: Int!
   imageUrl: String
+  mtgType: String
   mtgs: [Mtg!]!
   name: String
   text: String
