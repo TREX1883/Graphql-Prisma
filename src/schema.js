@@ -143,6 +143,7 @@ const Mtg = objectType({
     t.string('colors')
     t.string('text')
     t.string('imageUrl')
+    t.string('mtgType')
     t.nonNull.list.nonNull.field('mtgs', {
       type: 'Mtg',
       resolve: (parent, _, context) => {

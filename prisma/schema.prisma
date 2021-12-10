@@ -30,5 +30,6 @@ model Mtg {
   color String?
   text String?
   iamgeUrl String?
+  mtgType String?
   rulings Ruling[]
 }

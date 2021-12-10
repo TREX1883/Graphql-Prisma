@@ -13,8 +13,9 @@ async function main() {
         return {
             data: {
                 name: item.name,
-                color: item.color,
+                color: item.color[0],
                 text: item.text,
+                mtgType:item.Type,
             }
         }
     })
