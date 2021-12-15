@@ -9,6 +9,7 @@ generator client {
 //   url      = env("DATABASE_URL")
 // }
 
+//use this rest of this graphql project.
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"

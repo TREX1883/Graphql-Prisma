@@ -76,7 +76,7 @@ const Mutation = objectType({
         return context.prisma.mtg.create({
           data: {
             name: args.data.name,
-            colors: args.data.colors,
+            color: args.data.color,
             text: args.data.text,
             imageUrl: args.data.imageUrl,
           },
@@ -140,7 +140,7 @@ const Mtg = objectType({
     t.nonNull.int('id')
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })
-    t.string('colors')
+    t.string('color')
     t.string('text')
     t.string('imageUrl')
     t.string('mtgType')
@@ -188,7 +188,7 @@ const MtgCreateInput = inputObjectType({
   name: 'MtgCreateInput',
   definition(t) {
     t.nonNull.string('name')
-    t.string('colors')
+    t.string('color')
     t.string('text')
     t.string('imageUrl')
   },
